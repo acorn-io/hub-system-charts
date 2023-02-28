@@ -1,6 +1,6 @@
 vpcId: ""
 
-subnetId: ""
+subnetIds: ""
 
 clusterName: ""
 
@@ -9,3 +9,16 @@ roleArn: ""
 targetVpcId: ""
 
 region: ""
+
+clusterEndpoint: ""
+
+awsCcm: true
+awsEbs: true
+awsIdentity: true
+awsLBController: true
+certManager: true
+coredns: true
+traefik: true
+acorn: true
+awsKarpenter: true
+awsKarpenterChart: true

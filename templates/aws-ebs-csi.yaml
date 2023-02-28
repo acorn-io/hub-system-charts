@@ -1,3 +1,4 @@
+{{ if .Values.awsEbs }}
 apiVersion: helm.cattle.io/v1
 kind: HelmChart
 metadata:
@@ -8,6 +9,7 @@ spec:
   bootstrap: true
   valuesContent: |
     controller:
+      replicaCount: 1
       k8sTagClusterId: {{ .Values.clusterName }}
       region: {{ .Values.region }}
       serviceAccount:
@@ -18,13 +20,17 @@ spec:
           operator: "Exists"
     installCRDs: true
     node:
-      tolerations: {}
+      tolerations:
+      - key: taints.acorn.io/workload
+        operator: "Exists"
       tolerateAllTaints: false
       serviceAccount:
         annotations:
           eks.amazonaws.com/role-arn: {{ .Values.roleArn }}
     storageClasses:
       - name: ebs-retain
+        annotations:
+          storageclass.kubernetes.io/is-default-class: "true"
         parameters:
           encrypted: "true"
         reclaimPolicy: Retain
@@ -32,3 +38,4 @@ spec:
         parameters:
           encrypted: "true"
         reclaimPolicy: Delete
+  {{ end }}

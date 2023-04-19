@@ -43,16 +43,6 @@ spec:
         key: node-role.kubernetes.io/control-plane
       - effect: NoSchedule
         key: taints.acorn.io/workload
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: istio
-                operator: In
-                values:
-                - pilot
-            topologyKey: node-role.kubernetes.io/control-plane
     istio_cni:
       enabled: true
 {{ end }}

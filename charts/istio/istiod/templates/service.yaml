@@ -34,7 +34,6 @@ spec:
     {{- if ne .Values.revision "" }}
     istio.io/rev: {{ .Values.revision }}
     {{- else }}
-    on-master: "false"
     # Label used by the 'default' service. For versioned deployments we match with app and version.
     # This avoids default deployment picking the canary
     istio: pilot
@@ -72,13 +71,12 @@ spec:
       name: http-monitoring # prometheus stats
       protocol: TCP
   selector:
-    app: istiod
+    app: istiod-master
     {{- if ne .Values.revision "" }}
     istio.io/rev: {{ .Values.revision }}
     {{- else }}
-    on-master: "true"
     # Label used by the 'default' service. For versioned deployments we match with app and version.
     # This avoids default deployment picking the canary
-    istio: pilot
+    istio: pilot-master
     {{- end }}
 ---

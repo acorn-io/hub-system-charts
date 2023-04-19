@@ -1,14 +1,17 @@
+# This Deployment runs only on the master nodes
+# It is the same as the other Deployment except for a hardcoded nodeAffinity and different labels
+# These Istiod pods will be used by the kube-apiserver for sidecar injection and nothing else
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: istiod{{- if not (eq .Values.revision "") }}-{{ .Values.revision }}{{- end }}
+  name: istiod{{- if not (eq .Values.revision "") }}-{{ .Values.revision }}{{- end }}-master
   namespace: {{ .Release.Namespace }}
   labels:
-    app: istiod
+    app: istiod-master
     istio.io/rev: {{ .Values.revision | default "default" }}
     install.operator.istio.io/owning-resource: {{ .Values.ownerName | default "unknown" }}
     operator.istio.io/component: "Pilot"
-    istio: pilot
+    istio: pilot-master
     release: {{ .Release.Name }}
 {{- range $key, $val := .Values.pilot.deploymentLabels }}
     {{ $key }}: "{{ $val }}"
@@ -26,23 +29,23 @@ spec:
   selector:
     matchLabels:
       {{- if ne .Values.revision "" }}
-      app: istiod
+      app: istiod-master
       istio.io/rev: {{ .Values.revision | default "default" }}
       {{- else }}
-      istio: pilot
+      istio: pilot-master
       {{- end }}
   template:
     metadata:
       labels:
-        app: istiod
+        app: istiod-master
         istio.io/rev: {{ .Values.revision | default "default" }}
         install.operator.istio.io/owning-resource: {{ .Values.ownerName | default "unknown" }}
         sidecar.istio.io/inject: "false"
         operator.istio.io/component: "Pilot"
         {{- if ne .Values.revision "" }}
-        istio: istiod
+        istio: istiod-master
         {{- else }}
-        istio: pilot
+        istio: pilot-master
         {{- end }}
         {{- range $key, $val := .Values.pilot.podLabels }}
         {{ $key }}: "{{ $val }}"
@@ -58,13 +61,14 @@ spec:
         {{- end }}
     spec:
       affinity:
-        # hardcode nodeAffinity to force the deployment to not run on master nodes
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
               - key: node-role.kubernetes.io/control-plane
-                operator: DoesNotExist
+                operator: In
+                values:
+                - "true"
 {{- with .Values.pilot.tolerations }}
       tolerations:
 {{- toYaml . | nindent 8 }}

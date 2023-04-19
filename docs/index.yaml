@@ -3,9 +3,9 @@ entries:
   aws-cloud-controller-manager:
   - apiVersion: v1
     appVersion: v1.23.0-alpha.0
-    created: "2023-05-08T13:54:26.688903-04:00"
+    created: "2023-05-09T09:11:55.546441-04:00"
     description: Installs Cloud Controller Manager for AWS Cloud Provider
-    digest: 76d6b44b32aaff2673d1c5935ffd51ec1a3d417e3b7cd93e1bfae5451416598e
+    digest: c2973677118fa6bf84a248a471ee52f0186f7d6dcdd1c95c7df7efa7ef3a832c
     maintainers:
     - email: nic@amazon.com
       name: Nick Turner
@@ -16,9 +16,9 @@ entries:
   hub-system-charts:
   - apiVersion: v1
     appVersion: v0.0.1
-    created: "2023-05-08T13:54:26.694097-04:00"
+    created: "2023-05-09T09:11:55.552157-04:00"
     description: System chart for acorn hub controlplane
-    digest: 9b08cea36514a3cd7695a892955423d32ec4ec7ec4291323cfa00b74f2332cb4
+    digest: 80e6ca79597b06b6d6981083f52a33a71fa3657844fd93db339e8dd887ec9754
     maintainers:
     - email: daishan@acorn.io
       name: Daishan Peng
@@ -29,9 +29,9 @@ entries:
   istiod:
   - apiVersion: v1
     appVersion: 1.17.1
-    created: "2023-05-08T13:54:26.696023-04:00"
+    created: "2023-05-09T09:11:55.553332-04:00"
     description: Helm chart for istio control plane
-    digest: 336f3400c860089c7b59d415db1625f77d4f3fe26847846c0d7101c0b71a8796
+    digest: 2827e8e10297b8d018e4885b8eadfa96d3b791a71a05033c305c21f338340d36
     icon: https://istio.io/latest/favicons/android-192x192.png
     keywords:
     - istio
@@ -43,4 +43,4 @@ entries:
     urls:
     - https://acorn-io.github.io/hub-system-charts/istiod-1.17.1.tgz
     version: 1.17.1
-generated: "2023-05-08T13:54:26.688054-04:00"
+generated: "2023-05-09T09:11:55.545965-04:00"

@@ -61,6 +61,7 @@ spec:
         {{- end }}
     spec:
       affinity:
+        # ensure that this deployment only runs on master nodes
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:

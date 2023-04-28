@@ -55,4 +55,12 @@ spec:
             topologyKey: node-role.kubernetes.io/control-plane
     istio_cni:
       enabled: true
+---
+apiVersion: v1
+kind: Secret
+data:
+  config: LSBqb2JfbmFtZTogJ2Vudm95LXN0YXRzJwogIG1ldHJpY3NfcGF0aDogL3N0YXRzL3Byb21ldGhldXMKICBrdWJlcm5ldGVzX3NkX2NvbmZpZ3M6CiAgLSByb2xlOiBwb2QKCiAgcmVsYWJlbF9jb25maWdzOgogIC0gc291cmNlX2xhYmVsczogW19fbWV0YV9rdWJlcm5ldGVzX3BvZF9jb250YWluZXJfcG9ydF9uYW1lXQogICAgYWN0aW9uOiBrZWVwCiAgICByZWdleDogJy4qLWVudm95LXByb20nCg==
+metadata:
+  name: istio-proxy-scrape-config
+  namespace: prometheus-operator
 {{ end }}

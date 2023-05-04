@@ -104,6 +104,9 @@ stringData:
       - source_labels: [__meta_kubernetes_pod_container_port_name]
         action: keep
         regex: '.*-envoy-prom'
+      - action: labelmap
+        regex: __meta_kubernetes_pod_label_acorn_io_(.+)
+        replacement: acorn_io_${1}
 metadata:
   name: istio-proxy-scrape-config
   namespace: prometheus-operator

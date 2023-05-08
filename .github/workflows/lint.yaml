@@ -12,4 +12,13 @@ jobs:
           chmod 700 get_helm.sh
           ./get_helm.sh
       - run: helm lint
-      - run: ./scripts/package.sh
+      - run: |
+          git fetch origin main
+          for CHANGED_FILE in $(git diff origin/main --name-only); do
+            if [[ $CHANGED_FILE =~ ^docs/hub-system-charts-.*\.tgz$ ]]; then
+              # the package script has been run
+              exit 0
+            fi
+          done
+          echo "scripts/package.sh has not been run"
+          exit 1

@@ -13,8 +13,8 @@ jobs:
           ./get_helm.sh
       - run: helm lint
       - run: |
-          for CHANGED_FILE in $(git diff main --name-only); do
-            if [[ $CHANGED_FILE =~ ^docs/hub-system-charts-.*\.tgz ]]; then
+          for CHANGED_FILE in $(git diff upstream/main --name-only); do
+            if [[ $CHANGED_FILE =~ ^docs/hub-system-charts-.*\.tgz$ ]]; then
               # the package script has been run
               exit 0
             fi

@@ -13,3 +13,10 @@ jobs:
           ./get_helm.sh
       - run: helm lint
       - run: ./scripts/package.sh
+      - run: |
+          if [ -n "$$(git status --porcelain)" ]; then \
+            git status --porcelain; \
+            echo "Encountered dirty repo!"; \
+            git diff; \
+            exit 1 \
+          ;fi

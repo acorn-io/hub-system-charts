@@ -12,9 +12,10 @@ has been updated to be aware of any new charts.
 ### Istio
 For the purposes of using istio withing provisioned clusters, we have forked the upstream `Istiod` chart and setup:
 
-1. Two replicas for the `Istiod Deployment` that use `podAntiAffinity` to keep one on a master node and the other on worker nodes.
-1. The Istiod Service in the `istio-system` namespace to only select the `Istiod` pods with the `on-master: "false"` label.
-1. A new Service in the `istio-system` namespace called `istiod-remote` that only selects `Istiod` pods with the `on-master: "true"` label.
+1. A second Istiod Deployment called `istiod-master` with hardcoded nodeAffinity to run only on master nodes.
+1. Hardcoded nodeAffinity on the other `istiod` Deployment to run only on worker nodes.
+1. A second HPA and PDB to target the `istiod-master` Deployment.
+1. A new Service in the `istio-system` namespace called `istiod-remote` that only selects pods from the `istiod-master` Deployment.
 1. The `MutatingWebhookConfiguration` to send requests to the `istiod-remote` `Service` only.
 
 These edits were not possible outside of directly editing the chart. The upstream chart's values would not allow us to do this so we had to fork it.

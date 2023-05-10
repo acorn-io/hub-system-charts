@@ -20,12 +20,12 @@ spec:
   valuesContent: |
     prometheusOperator:
       serviceMonitor:
-        relabelings:
-        - sourceLabels:
-          - __address__
-          action: replace
-          targetLabel: job
-          replacement: prometheus-operator
+        metricRelabelings:
+        # drop all metrics because we don't care about them
+        # would be easier if we could just disable the ServiceMonitor but the chart does not provide that option
+        - sourceLabels: [__name__]
+          regex: '.*'
+          action: drop
       admissionWebhooks:
         patch:
           podLabels:
@@ -38,14 +38,28 @@ spec:
       tolerations:
       - key: node-role.kubernetes.io/control-plane
         operator: "Exists"
-    prometheus-node-exporter:
-      tolerations:
-      - key: taints.acorn.io/workload
-        operator: "Exists"
+    kubelet:
+      enabled: true
+      serviceMonitor:
+        cAdvisorMetricRelabelings:
+        - source_labels: [id, pod]
+          regex: .+;
+          action: drop
+        # only keep the metrics that we will use
+        - sourceLabels: [__name__]
+          action: keep
+          regex: 'container_cpu_usage_seconds_total|container_memory_usage_bytes|container_network_(receive|transmit)_bytes_total'
     kube-state-metrics:
       tolerations:
       - key: taints.acorn.io/workload
         operator: "Exists"
+      prometheus:
+        monitor:
+          # only keep the metrics that we will use
+          metricRelabelings:
+          - sourceLabels: [__name__]
+            regex: 'kube_pod_labels'
+            action: keep
       metricLabelsAllowlist:
       - namespaces=[acorn.io/app-name,acorn.io/app-namespace,acorn.io/container-name,acorn.io/project,acorn.io/project-name,hub.acorn.io/account-name]
       - deployments=[acorn.io/app-name,acorn.io/app-namespace,acorn.io/container-name,acorn.io/project,acorn.io/project-name,hub.acorn.io/account-name]
@@ -63,8 +77,6 @@ spec:
       enabled: false
     grafana:
       enabled: false
-    kubelet:
-      enabled: true
     kubeApiServer:
       enabled: false
     coreDns: 
@@ -76,6 +88,8 @@ spec:
     kubeProxy:
       enabled: false
     kubeEtcd:
+      enabled: false
+    nodeExporter:
       enabled: false
     defaultRules:
       create: true

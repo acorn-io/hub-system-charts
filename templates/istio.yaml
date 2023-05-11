@@ -42,6 +42,21 @@ spec:
         key: node-role.kubernetes.io/control-plane
       - effect: NoSchedule
         key: taints.acorn.io/workload
+    # configure telemetry to add the destination_port label to the istio_request_bytes metric
+    telemetry:
+      v2:
+        prometheus:
+          configOverride:
+            inboundSidecar:
+              metrics:
+              - name: request_bytes
+                dimensions:
+                  destination_port: destination.port
+            outboundSidecar:
+              metrics:
+              - name: request_bytes
+                dimensions:
+                  destination_port: destination.port
     istio_cni:
       enabled: true
 {{ end }}

@@ -31,7 +31,7 @@ awsIdentityProviderArn: "oidc"
 # Cluster agent account url, token and name used by cluster agent
 clusterAgentAccountUrl: ""
 clusterAgentToken: ""
-clusterAgentAccountName: ""
+clusterAgentAccountID: ""
 hubUrl: ""
 
 # Acorn tag to install in the cluster

@@ -14,8 +14,8 @@ spec:
     accountFqdn: {{ .Values.clusterAgentAccountUrl }}
     {{ end }}
     region: {{ .Values.region }}
-    {{ if .Values.clusterAgentAccountName }}
-    accountName: {{ .Values.clusterAgentAccountName }}
+    {{ if .Values.clusterAgentAccountID }}
+    accountID: {{ .Values.clusterAgentAccountID }}
     {{ end }}
     hubUrl: {{ .Values.hubUrl }}
   image: "ghcr.io/acorn-io/hub:{{ .Values.acornTag }}"

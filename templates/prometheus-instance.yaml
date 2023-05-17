@@ -110,6 +110,7 @@ stringData:
         replacement: acorn_io_${1}
 
       metric_relabel_configs:
+      # set the extra labels we need on these metrics:
       - action: replace
         source_labels: [__name__, source_canonical_service]
         regex: '(istio_request_bytes_sum|istio_tcp_sent_bytes_total);(.*)'
@@ -130,6 +131,12 @@ stringData:
         regex: '(istio_response_bytes_sum|istio_tcp_received_bytes_total);(.*)'
         target_label: dest
         replacement: ${2}
+
+      # eliminate all metrics that we aren't using
+      - action: keep
+        source_labels: [__name__]
+        # all metrics not in this list are dropped
+        regex: 'istio_request_bytes_sum|istio_response_bytes_sum|istio_tcp_sent_bytes_total|istio_tcp_received_bytes_total|istio_requests_total|istio_tcp_connections_opened_total'
 metadata:
   name: istio-proxy-scrape-config
   namespace: prometheus-operator

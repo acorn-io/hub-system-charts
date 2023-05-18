@@ -108,6 +108,12 @@ stringData:
       - action: labelmap
         regex: __meta_kubernetes_pod_label_acorn_io_(.+)
         replacement: acorn_io_${1}
+      # add the `pod` label onto Istio metrics
+      - source_labels: [__meta_kubernetes_pod_name]
+        action: replace
+        regex: '(.*)'
+        replacement: ${1}
+        target_label: pod
 
       metric_relabel_configs:
       # set the extra labels we need on these metrics:

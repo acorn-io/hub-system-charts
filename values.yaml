@@ -51,6 +51,9 @@ hubResources: true
 awsKarpenterProvisioner: true
 istio: true
 
+# For specifying if the cluster is a sandbox cluster
+sandbox: false
+
 # Prometheus configuration
 # CFN output values.
 # prometheusRemoteWriteEndpoint should have '/api/v1/remote_write' appended.

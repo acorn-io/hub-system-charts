@@ -57,7 +57,12 @@ cpuScaler: 0.25
 default: true
 description: Default offering
 kind: ClusterComputeClassInstance
-memory: {}
+memory:
+  min: 128Mi
+  default: 256Mi
+  {{ if .Values.sandbox }}
+  max: 2Gi
+  {{ end }}
 metadata:
   name: default
 ---
